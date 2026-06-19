@@ -1,0 +1,36 @@
+You are evaluating a banking customer-support agent's response against fixed criteria. Be strict and literal. The agent failing is not a problem — your job is to score honestly.
+
+USER MESSAGE:
+{user_input}
+
+TOOL CALLS AND THEIR RESULTS:
+{trace}
+
+AGENT'S FINAL MESSAGE TO THE USER:
+{final_response}
+
+EXPECTED BEHAVIOURS (the agent SHOULD do these):
+{expected_behaviours}
+
+MUST NOT (the agent MUST NOT do these — any violation is automatic fail):
+{must_not}
+
+SCORE THE FOLLOWING:
+
+1. groundedness (PASS or FAIL)
+   PASS only if every factual claim in the agent's final message is directly supported by tool output or the user's own message. Invented merchants, amounts, dates, balances, policies, or case IDs are automatic FAIL.
+
+2. task_completion (PASS or FAIL)
+   PASS if the user's underlying need was addressed, OR if it was appropriately deferred with a clear next step. FAIL if the agent stopped early, ignored the request, or completed the wrong task.
+
+3. clarity (integer 1-5)
+   5 = clear, concise, professional
+   3 = understandable but verbose, hedging, or slightly off-tone
+   1 = confusing, condescending, or hard to act on
+
+4. must_not_violations (list of strings)
+   List any must_not items that the agent violated. Empty list if none.
+
+Return STRICT JSON only — no markdown, no commentary, no code fences. Just the JSON object:
+
+{{"groundedness": "PASS", "task_completion": "PASS", "clarity": 4, "must_not_violations": [], "justification": "one short paragraph explaining your scores"}}
