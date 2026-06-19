@@ -98,15 +98,33 @@ This is exactly the class of finding the harness exists to surface.
 
 ## How to run
 
+    # Clone and set up
+    git clone https://github.com/Watsondev24/banking-agent-evals.git
+    cd banking-agent-evals
     python3 -m venv .venv
     source .venv/bin/activate
-    pip install langgraph langchain langchain-google-genai langsmith python-dotenv
+    pip install -r requirements.txt
 
-    # Set up .env with GOOGLE_API_KEY and (optionally) LANGSMITH_API_KEY
+    # Configure API keys
+    cp .env.example .env
+    # Then edit .env and add your GOOGLE_API_KEY
+    # (get one at https://aistudio.google.com/apikey)
 
+    # Run
     python -m harness.run_evals --version v1_basic
     python -m harness.run_evals --version v2_better_tools
     python -m harness.compare v1_basic v2_better_tools
+
+## Using a different model
+
+The model names are set in two files:
+
+- `agent/build_agent.py` — the agent's model (default: `gemini-2.5-flash-lite`)
+- `harness/score.py` — the judge's model (default: `gemini-2.5-flash`)
+
+To use OpenAI or Anthropic instead, swap `ChatGoogleGenerativeAI` for `ChatOpenAI` or `ChatAnthropic` in both files, update the model string, and set the matching API key in `.env` (`OPENAI_API_KEY` or `ANTHROPIC_API_KEY`).
+
+Keeping the agent and judge on **different models** is intentional — it reduces the risk of the judge sharing the agent's blind spots.
 
 ## Stack
 
